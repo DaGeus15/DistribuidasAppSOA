@@ -22,20 +22,20 @@
     <div class="container py-4">
       <h2 class="mb-4">Gestión de Usuarios</h2>
 
-	<div class="mb-3 d-flex">
-	  <input
-	    type="text"
-	    id="buscar-cedula"
-	    class="form-control me-2"
-	    placeholder="Buscar por cédula"
-	  />
-	  <button id="btn-buscar" class="btn btn-primary">
-	    <i class="bi bi-search"></i> Buscar
-	  </button>
-	  <button id="btn-limpiar" class="btn btn-secondary ms-2">
-	    <i class="bi bi-x-circle"></i> Limpiar
-	  </button>
-	</div>
+      <div class="mb-3 d-flex">
+        <input
+          type="text"
+          id="buscar-cedula"
+          class="form-control me-2"
+          placeholder="Buscar por cédula"
+        />
+        <button id="btn-buscar" class="btn btn-primary">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+        <button id="btn-limpiar" class="btn btn-secondary ms-2">
+          <i class="bi bi-x-circle"></i> Limpiar
+        </button>
+      </div>
 
       <button
         id="btn-insertar"
@@ -90,6 +90,8 @@
                 class="form-control mb-2"
                 placeholder="Cédula"
                 required
+                pattern="\d{10}"
+                title="La cédula debe tener 10 dígitos numéricos"
               />
               <input
                 type="text"
@@ -118,6 +120,8 @@
                 class="form-control mb-2"
                 placeholder="Teléfono"
                 required
+                pattern="\d{7,10}"
+                title="El teléfono debe ser numérico y tener entre 7 y 10 dígitos"
               />
               <button type="submit" class="btn btn-primary w-100">
                 Guardar
