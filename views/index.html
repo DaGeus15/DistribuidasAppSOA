@@ -19,15 +19,22 @@
     <script type="text/javascript" src="../ajax/ajax.js"></script>
   </head>
   <body>
+    <div id="alerta-mensaje" 
+     class="alert d-none" 
+     role="alert" 
+     style="position: fixed; top: 20px; right: 20px; min-width: 250px; z-index: 9999;">
+    </div>
     <div class="container py-4">
       <h2 class="mb-4">Gestión de Usuarios</h2>
-
       <div class="mb-3 d-flex">
         <input
           type="text"
           id="buscar-cedula"
+           style="max-width: 200px;"
           class="form-control me-2"
           placeholder="Buscar por cédula"
+          maxlength="10"
+          oninput="this.value = this.value.replace(/\D/g,'').slice(0,10);"
         />
         <button id="btn-buscar" class="btn btn-primary">
           <i class="bi bi-search"></i> Buscar
@@ -89,6 +96,8 @@
                 name="cedula"
                 class="form-control mb-2"
                 placeholder="Cédula"
+                maxlength="10"
+                oninput="this.value = this.value.replace(/\D/g,'').slice(0,10);"
                 required
                 pattern="\d{10}"
                 title="La cédula debe tener 10 dígitos numéricos"
@@ -121,6 +130,8 @@
                 placeholder="Teléfono"
                 required
                 pattern="\d{7,10}"
+                maxlength="10"
+                oninput="this.value = this.value.replace(/\D/g,'').slice(0,10);"
                 title="El teléfono debe ser numérico y tener entre 7 y 10 dígitos"
               />
               <button type="submit" class="btn btn-primary w-100">

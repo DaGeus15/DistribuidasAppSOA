@@ -4,7 +4,7 @@ $(document).ready(function () {
   $("#btn-buscar").on("click", function () {
     const cedula = $("#buscar-cedula").val().trim();
     if (cedula === "") {
-      alert("Por favor ingresa una cédula para buscar.");
+      mostrarAlerta("Por favor ingresa una cédula para buscar.", "warning");
       return;
     }
 
@@ -22,7 +22,7 @@ $(document).ready(function () {
         }
 
         if (data.length === 0 || !data[0].cedula) {
-          alert("No se encontró ningún usuario con esa cédula.");
+          mostrarAlerta("No se encontró ningún usuario con esa cédula.", "info");
           return;
         }
 
@@ -45,7 +45,7 @@ $(document).ready(function () {
       },
       error: function (xhr) {
         console.error("Error al buscar usuario:", xhr.responseText);
-        alert("Ocurrió un error al buscar la cédula.");
+        mostrarAlerta("Ocurrió un error al buscar la cédula.","danger");
       },
     });
   });
@@ -178,4 +178,13 @@ function deleteUser(cedula) {
       console.error("Error al eliminar usuario");
     },
   });
+}
+function mostrarAlerta(mensaje, tipo = "warning") {
+  const alerta = $("#alerta-mensaje");
+  alerta.removeClass("d-none alert-success alert-danger alert-warning alert-info");
+  alerta.addClass("alert-" + tipo);
+  alerta.text(mensaje);
+  setTimeout(() => {
+    alerta.addClass("d-none");
+  }, 2500);
 }
