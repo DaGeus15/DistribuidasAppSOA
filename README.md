@@ -15,7 +15,7 @@ DistribuidasAppSOA es una API desarrollada en PHP bajo el patrón de arquitectur
 - **Lenguaje backend:** PHP
 - **Base de datos:** MySQL
 - **Servidor:** Apache (usando XAMPP)
-- **Frontend:** Boostrap
+- **Frontend:** Boostrap + Ajax
 
 ## Requisitos
 
@@ -32,7 +32,7 @@ Las rutas principales de la API permiten las siguientes operaciones sobre estudi
 - **Editar estudiante:** `PUT /estudiantes/{id}`
 - **Eliminar estudiante:** `DELETE /estudiantes/{id}`
 
-Consulta la documentación interna o el código fuente para detalles sobre los endpoints y los formatos esperados.
+Consultar la documentación interna o el código fuente para detalles sobre los endpoints y los formatos esperados.
 
 ## Arquitectura distribuida
 
@@ -41,7 +41,5 @@ Consulta la documentación interna o el código fuente para detalles sobre los e
 - **Máquina 3:** Frontend (cliente de la API)
 
 Cada componente debe poder acceder al recurso que necesita a través de la red. Configura los firewalls y permisos según sea necesario.
-
-
-**Autor:** [Tu nombre o equipo]  
-**Asignatura:** Sistemas Distribuidos
+ 
+**Asignatura:** Aplicaciones Distribuidas
