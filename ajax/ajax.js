@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.1.2/SOA/controllers/ApiREST.php";
+const API_URL = "http://localhost/DistribuidasAppSOA/controllers/ApiREST.php";
 $(document).ready(function () {
   cargarDatos();
   $("#btn-buscar").on("click", function () {
@@ -22,7 +22,10 @@ $(document).ready(function () {
         }
 
         if (data.length === 0 || !data[0].cedula) {
-          mostrarAlerta("No se encontró ningún usuario con esa cédula.", "info");
+          mostrarAlerta(
+            "No se encontró ningún usuario con esa cédula.",
+            "info"
+          );
           return;
         }
 
@@ -45,7 +48,7 @@ $(document).ready(function () {
       },
       error: function (xhr) {
         console.error("Error al buscar usuario:", xhr.responseText);
-        mostrarAlerta("Ocurrió un error al buscar la cédula.","danger");
+        mostrarAlerta("Ocurrió un error al buscar la cédula.", "danger");
       },
     });
   });
@@ -112,25 +115,27 @@ $(document).ready(function () {
         },
       });
     } else {
-	$.ajax({
-	  url: API_URL,
-	  type: "POST",
-	  contentType: "application/json",
-	  data: JSON.stringify(formData),
-	  success: function () {
-	    console.log("Usuario agregado");
-	    $("#form-usuario")[0].reset();
-	    cargarDatos();
-	    cerrarModal();
-	  },
-	  error: function () {
-	    console.error("Error al agregar usuario");
-	  },
-	});
+      $.ajax({
+        url: API_URL,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        success: function () {
+          console.log("Usuario agregado");
+          $("#form-usuario")[0].reset();
+          cargarDatos();
+          cerrarModal();
+        },
+        error: function () {
+          console.error("Error al agregar usuario");
+        },
+      });
     }
   });
 });
+
 function cargarDatos() {
+  toggleLoading(true);
   $.ajax({
     url: API_URL,
     type: "GET",
@@ -156,11 +161,16 @@ function cargarDatos() {
         tbody.append(row);
       });
     },
-    error: function (xhr, status, error) {
+    error: function (error) {
       console.error("Error al cargar datos:", error);
+      mostrarAlerta("Error al cargar los datos", "danger");
+    },
+    complete: function () {
+      toggleLoading(false);
     },
   });
 }
+
 function deleteUser(cedula) {
   if (
     !confirm(
@@ -169,7 +179,7 @@ function deleteUser(cedula) {
   )
     return;
   $.ajax({
-    url: API_URL+"?cedula=" + encodeURIComponent(cedula),
+    url: API_URL + "?cedula=" + encodeURIComponent(cedula),
     type: "DELETE",
     success: function () {
       cargarDatos();
@@ -179,12 +189,27 @@ function deleteUser(cedula) {
     },
   });
 }
+
 function mostrarAlerta(mensaje, tipo = "warning") {
   const alerta = $("#alerta-mensaje");
-  alerta.removeClass("d-none alert-success alert-danger alert-warning alert-info");
+  alerta.removeClass(
+    "d-none alert-success alert-danger alert-warning alert-info"
+  );
   alerta.addClass("alert-" + tipo);
   alerta.text(mensaje);
   setTimeout(() => {
     alerta.addClass("d-none");
   }, 2500);
+}
+
+function toggleLoading(show) {
+  if (show) {
+    $("button").prop("disabled", true);
+    $("button").append(
+      '<span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>'
+    );
+  } else {
+    $("button").prop("disabled", false);
+    $(".spinner-border").remove();
+  }
 }

@@ -23,7 +23,7 @@ DistribuidasAppSOA es una API desarrollada en PHP bajo el patrón de arquitectur
 - Apache (recomendado instalar XAMPP)
 - MySQL
 
-## Uso
+## API Endpoints
 
 Las rutas principales de la API permiten las siguientes operaciones sobre estudiantes:
 
@@ -84,9 +84,9 @@ Consultar la documentación interna o el código fuente para detalles sobre los 
 
 ## Arquitectura distribuida
 
-- **Máquina 1:** MySQL (base de datos)
-- **Máquina 2:** Apache + PHP (API backend)
-- **Máquina 3 y 4:** Frontend (cliente de la API)
+- **Máquina 1:** MySQL (Base de datos)
+- **Máquina 2:** Apache + PHP (API Backend)
+- **Máquina 3 y 4:** Frontend (Cliente de la API, Frontend)
 
 Cada componente debe poder acceder al recurso que necesita a través de la red. Configura los firewalls y permisos según sea necesario.
  

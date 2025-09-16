@@ -6,20 +6,35 @@ class Update
     {
         $objetoUpdate = new Conexion();
         $conexion = $objetoUpdate->conectar();
-        $sqlUpdate = "UPDATE estudiantes SET nombre = ?, apellido = ?, direccion = ?, telefono = ? WHERE cedula = ?";
-        $result = $conexion->prepare($sqlUpdate);
-        $result->bindParam(1, $nombre);
-        $result->bindParam(2, $apellido);
-        $result->bindParam(3, $direccion);
-        $result->bindParam(4, $telefono);
-        $result->bindParam(5, $cedula);
+        
+        $checkSql = "SELECT cedula FROM estudiantes WHERE cedula = ? FOR UPDATE";
 
         try {
+            $conexion->beginTransaction();
+
+            // Verificar existencia del estudiante
+            $check = $conexion->prepare($checkSql);
+            $check->bindParam(1, $cedula);
+            $check->execute();
+
+            if ($check->rowCount() === 0) {
+                $conexion->rollBack();
+                return ["success" => false, "error" => "Estudiante no encontrado."];
+            }
+
+            $sqlUpdate = "UPDATE estudiantes SET nombre = ?, apellido = ?, direccion = ?, telefono = ? WHERE cedula = ?";
+            $result = $conexion->prepare($sqlUpdate);
+            $result->bindParam(1, $nombre);
+            $result->bindParam(2, $apellido);
+            $result->bindParam(3, $direccion);
+            $result->bindParam(4, $telefono);
+            $result->bindParam(5, $cedula);
+
             if ($result->execute()) {
-                // Devolver un JSON indicando éxito
+                $conexion->commit();
                 return ["success" => true, "message" => "Usuario editado exitosamente."];
             } else {
-                // Devolver un JSON indicando error
+                $conexion->rollBack();
                 return ["success" => false, "error" => "Error al editar el usuario."];
             }
         } catch (PDOException $e) {
